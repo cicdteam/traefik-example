@@ -1,0 +1,29 @@
+version: '3'
+services:
+
+    php:
+        build: php
+        extra_hosts:
+        - "baza:5.9.59.102"
+        networks:
+          - project2
+
+    web:
+        depends_on:
+        - php
+        build: web
+        labels:
+          - traefik.backend=app2
+          - traefik.frontend.rule=Host:app2.localhost
+          - traefik.docker.network=proxy
+          - traefik.port=80
+        networks:
+          - project2
+          - proxy
+
+networks:
+  proxy:
+    external: true
+
+  project2:
+    external: false
