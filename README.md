@@ -17,6 +17,16 @@ $ docker network create proxy
 $ for i in mysql traefik app1 app2; do cd $i; docker-compose up -d --build; cd ..; done
 ```
 
+### Ensure MySQL started and ready for connections
+
+```
+$ cd mysql; docker-compose logs --tail=3; cd ..
+Attaching to mysql_mysql_1
+mysql_1  | 2018-06-10T07:38:32.344711Z 0 [Note] Event Scheduler: Loaded 0 events
+mysql_1  | 2018-06-10T07:38:32.345128Z 0 [Note] mysqld: ready for connections.
+mysql_1  | Version: '5.7.22'  socket: '/var/run/mysqld/mysqld.sock'  port: 3306  MySQL Community Server (GPL)
+```
+
 ### Check how everything works
 
 app1:
@@ -24,7 +34,7 @@ app1:
 ```
 $ curl -H "Host: app1.localhost" localhost:1082
 Hello from PHP1!
-PHP 1 Connection to MySQL server failed: SQLSTATE[HY000] [2002] Connection refused
+PHP 1 Connected successfully to MySQL server
 ```
 
 app2:
@@ -32,7 +42,7 @@ app2:
 ```
 $ curl -H "Host: app2.localhost" localhost:1082
 Hello from PHP2!
-PHP 2 Connection to MySQL server failed: SQLSTATE[HY000] [2002] Connection refused
+PHP 2 Connected successfully to MySQL server
 ```
 
 ### Stop everything
