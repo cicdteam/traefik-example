@@ -13,7 +13,6 @@ services:
         - php
         build: web
         labels:
-          - traefik.backend=app2
           - traefik.frontend.rule=Host:app2.localhost
           - traefik.docker.network=proxy
           - traefik.port=80
